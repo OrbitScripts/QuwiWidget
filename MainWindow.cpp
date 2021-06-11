@@ -14,10 +14,11 @@ MainWindow::MainWindow(QWidget *parent)
   m_spinner->setParent(ui->loginButton);
   m_spinner->setInnerRadius(5);
   m_spinner->setLineWidth(1);
-  //m_spinner->start();
 
   connect(ui->loginButton, &QPushButton::pressed,
           this, &MainWindow::onLoginButtonClicked);
+  connect(&m_networkManager, &NetworkManager::finishRequest,
+          this, &MainWindow::onFinishRequest);
 }
 
 MainWindow::~MainWindow()
@@ -29,6 +30,15 @@ void MainWindow::onLoginButtonClicked() {
   QString email = ui->emailField->text();
   QString password = ui->passwordField->text();
 
-  //m_networkManager.loginRequest(email, password);
+  ui->loginButton->setText("");
+  m_spinner->start();
+  m_networkManager.loginRequest(email, password);
+}
+
+void MainWindow::onFinishRequest(const QString& url, const QString& error) {
+  if (url == m_networkManager.loginUrl()) {
+    ui->loginButton->setText("Login");
+    m_spinner->stop();
+  }
 }
 

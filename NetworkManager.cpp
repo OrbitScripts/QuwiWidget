@@ -12,14 +12,14 @@ NetworkManager::NetworkManager(QObject *parent)
 }
 
 void NetworkManager::loginRequest(const QString& login, const QString& password) {
-  QNetworkRequest request(m_host + "/auth/login");
+  QNetworkRequest request(m_loginUrl);
   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
   QString jsonData = QString("{\"email\": \"%1\", \"password\": \"%2\"}").arg(login, password);
   m_networkManager.post(request, jsonData.toUtf8());
 }
 
 void NetworkManager::logoutRequest() {
-  QNetworkRequest request(m_host + "/auth/logout");
+  QNetworkRequest request(m_logoutUrl);
   QString bearerToken = QString("Bearer %1").arg(m_token);
   request.setRawHeader("Authorization", bearerToken.toUtf8());
   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -28,7 +28,7 @@ void NetworkManager::logoutRequest() {
 }
 
 void NetworkManager::projectsRequest() {
-  QNetworkRequest request(m_host + "/projects");
+  QNetworkRequest request(m_projectUrl);
   QString bearerToken = QString("Bearer %1").arg(m_token);
   request.setRawHeader("Authorization", bearerToken.toUtf8());
   m_networkManager.get(request);
@@ -51,12 +51,12 @@ void NetworkManager::onReplyResponce(QNetworkReply* reply) {
     QJsonDocument json = QJsonDocument::fromJson(responce.toUtf8());
     QJsonObject jsonRootObject = json.object();
 
-    if (reply->url() == m_host + "/auth/login") {
+    if (reply->url() == m_loginUrl) {
       QJsonValue token = jsonRootObject.value("token");
       if (!token.isUndefined()) {
         m_token = token.toString();
       }
-    } else if (reply->url() == m_host + "/projects") {
+    } else if (reply->url() == m_projectUrl) {
       QJsonArray jsonProjects = jsonRootObject["projects"].toArray();
 
       foreach (const QJsonValue& value, jsonProjects) {
@@ -65,7 +65,7 @@ void NetworkManager::onReplyResponce(QNetworkReply* reply) {
         m_projects.append(project);
       }
       emit projectsChanged();
-    } else if (reply->url() == m_host + "/auth/logout") {
+    } else if (reply->url() == m_logoutUrl) {
       m_projects.clear();
       emit projectsChanged();
     }
@@ -86,4 +86,16 @@ void NetworkManager::onReplyResponce(QNetworkReply* reply) {
 
   emit finishRequest(reply->url().toString(), errorString);
   reply->deleteLater();
+}
+
+const QString& NetworkManager::projectUrl() const {
+  return m_projectUrl;
+}
+
+const QString& NetworkManager::logoutUrl() const {
+  return m_logoutUrl;
+}
+
+const QString& NetworkManager::loginUrl() const {
+  return m_loginUrl;
 }

@@ -19,6 +19,7 @@ public:
   ~MainWindow();
 
   void onLoginButtonClicked();
+  void onFinishRequest(const QString& url, const QString& error);
 
 private:
   Ui::MainWindow *ui;

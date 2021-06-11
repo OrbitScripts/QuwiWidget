@@ -24,6 +24,10 @@ public:
 
   QStringList getProjects() const;
 
+  const QString& loginUrl() const;
+  const QString& logoutUrl() const;
+  const QString& projectUrl() const;
+
 signals:
   void finishRequest(const QString& url, const QString& error);
   void projectsChanged();
@@ -37,6 +41,9 @@ private:
   QList<Project> m_projects;
 
   const QString m_host = "https://api.quwi.com/v2";
+  const QString m_loginUrl = m_host + "/auth/login";
+  const QString m_logoutUrl = m_host + "/auth/logout";
+  const QString m_projectUrl = m_host + "/projects";
 };
 
 #endif // NETWORKMANAGER_H
