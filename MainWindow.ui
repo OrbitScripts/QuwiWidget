@@ -74,7 +74,13 @@
        <string notr="true">color: rgb(118, 161, 225)</string>
       </property>
       <property name="text">
-       <string>Don't have an account? Register for free</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://quwi.com/signup&quot;&gt;&lt;span style=&quot; font-size:11pt; text-decoration: underline; color:#76a1e1;&quot;&gt;Don't have an account? Register for free&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
