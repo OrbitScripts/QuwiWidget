@@ -4,8 +4,9 @@
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
-  : QMainWindow(parent)
-  , ui(new Ui::MainWindow)
+  : QMainWindow(parent),
+    ui(new Ui::MainWindow),
+    m_networkManager(parent)
 {
   ui->setupUi(this);
 
@@ -19,6 +20,9 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::onLoginButtonClicked() {
-  qDebug() << "onLoginButtonClicked";
+  QString email = ui->emailField->text();
+  QString password = ui->passwordField->text();
+
+  //m_networkManager.loginRequest(email, password);
 }
 
