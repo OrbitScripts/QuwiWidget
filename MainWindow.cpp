@@ -10,6 +10,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
   ui->setupUi(this);
 
+  m_spinner = new WaitingSpinnerWidget(this);
+  m_spinner->setParent(ui->loginButton);
+  m_spinner->setInnerRadius(5);
+  m_spinner->setLineWidth(1);
+  //m_spinner->start();
+
   connect(ui->loginButton, &QPushButton::pressed,
           this, &MainWindow::onLoginButtonClicked);
 }

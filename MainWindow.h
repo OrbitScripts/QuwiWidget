@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 
+#include "QtWaitingSpinner/waitingspinnerwidget.h"
 #include "NetworkManager.h"
 
 QT_BEGIN_NAMESPACE
@@ -21,6 +22,7 @@ public:
 
 private:
   Ui::MainWindow *ui;
+  WaitingSpinnerWidget* m_spinner;
   NetworkManager m_networkManager;
 };
 #endif // MAINWINDOW_H

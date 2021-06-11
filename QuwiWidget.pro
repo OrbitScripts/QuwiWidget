@@ -5,6 +5,7 @@ CONFIG += c++14
 SOURCES += \
     LinkLabel.cpp \
     NetworkManager.cpp \
+    QtWaitingSpinner/waitingspinnerwidget.cpp \
     main.cpp \
     MainWindow.cpp \
     DataLayer/Project.cpp
@@ -13,7 +14,8 @@ HEADERS += \
     LinkLabel.h \
     MainWindow.h \
     NetworkManager.h \
-    DataLayer/Project.h
+    DataLayer/Project.h \
+    QtWaitingSpinner/waitingspinnerwidget.h
 
 FORMS += \
     MainWindow.ui
