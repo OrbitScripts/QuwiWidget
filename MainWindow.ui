@@ -35,6 +35,18 @@
    <string notr="true">background-color: rgb(45, 93,163)</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+ background-color: rgb(88, 139, 214);
+ border-radius: 4px;
+ color: rgb(255, 255, 255);
+}
+
+QPushButton:hover {
+   background-color: rgb(116, 148,195);
+}
+</string>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="9" column="1">
      <spacer name="verticalSpacer_3">
@@ -224,9 +236,7 @@ color: rgb(255, 255, 255);</string>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(88, 139, 214);
-border-radius: 4px;
-color: rgb(255, 255, 255);</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>Login</string>
