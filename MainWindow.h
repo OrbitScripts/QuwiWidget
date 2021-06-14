@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLabel>
 
 #include "QtWaitingSpinner/waitingspinnerwidget.h"
 #include "NetworkManager.h"
@@ -18,12 +19,16 @@ public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
+  void showEmailError(const QString& message);
+  void hideEmailError();
+
   void onLoginButtonClicked();
   void onFinishRequest(const QString& url, const QString& error);
 
 private:
   Ui::MainWindow *ui;
   WaitingSpinnerWidget* m_spinner;
+  QLabel* m_emailError;
   NetworkManager m_networkManager;
 };
 #endif // MAINWINDOW_H

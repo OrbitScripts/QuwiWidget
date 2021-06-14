@@ -43,9 +43,8 @@
 }
 
 QPushButton:hover {
-   background-color: rgb(116, 148,195);
-}
-</string>
+ background-color: rgb(116, 148,195);
+}</string>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="9" column="1">

@@ -18,6 +18,7 @@ HEADERS += \
     QtWaitingSpinner/waitingspinnerwidget.h
 
 FORMS += \
+    HomePage.ui \
     MainWindow.ui
 
 RESOURCES += \

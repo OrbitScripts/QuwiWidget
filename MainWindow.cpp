@@ -10,6 +10,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
   ui->setupUi(this);
 
+  m_emailError = new QLabel(this);
+  m_emailError->setStyleSheet("color: red; background-color: transparent;");
+  m_emailError->setIndent(16);
+
   m_spinner = new WaitingSpinnerWidget(this);
   m_spinner->setParent(ui->loginButton);
   m_spinner->setInnerRadius(5);
@@ -24,6 +28,25 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
   delete ui;
+}
+
+void MainWindow::showEmailError(const QString& message) {
+  m_emailError->setGeometry(ui->emailField->x(),
+                            ui->emailField->y() - 5,
+                            m_emailError->width(),
+                            m_emailError->height());
+
+  m_emailError->setText(message);
+  QString style = ui->emailField->styleSheet();
+  style += "\n border: 1px solid red;}";
+  ui->emailField->setStyleSheet(style);
+}
+
+void MainWindow::hideEmailError() {
+  m_emailError->setText("");
+  QString style = ui->emailField->styleSheet();
+  style.replace("\n border: 1px solid red;}", "");
+  ui->emailField->setStyleSheet(style);
 }
 
 void MainWindow::onLoginButtonClicked() {
