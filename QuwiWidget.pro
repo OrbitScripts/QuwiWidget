@@ -3,6 +3,7 @@ QT += core gui widgets network
 CONFIG += c++14
 
 SOURCES += \
+    HomePage.cpp \
     LinkLabel.cpp \
     NetworkManager.cpp \
     QtWaitingSpinner/waitingspinnerwidget.cpp \
@@ -11,6 +12,7 @@ SOURCES += \
     DataLayer/Project.cpp
 
 HEADERS += \
+    HomePage.h \
     LinkLabel.h \
     MainWindow.h \
     NetworkManager.h \

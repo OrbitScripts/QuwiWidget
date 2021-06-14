@@ -1,12 +1,12 @@
-#include "MainWindow.h"
+﻿#include "MainWindow.h"
 #include "ui_MainWindow.h"
 
 #include <QRegExp>
 
-MainWindow::MainWindow(QWidget *parent)
-  : QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    m_networkManager(parent)
+MainWindow::MainWindow(QWidget *parent) :
+  QMainWindow(parent),
+  ui(new Ui::MainWindow),
+  m_networkManager(parent)
 {
   ui->setupUi(this);
 
@@ -38,6 +38,14 @@ MainWindow::~MainWindow()
   delete ui;
 }
 
+void MainWindow::setHomePage(HomePage* page) {
+  m_homePage = page;
+}
+
+void MainWindow::logout() {
+  m_networkManager.logoutRequest();
+}
+
 void MainWindow::showEmailError(const QString& message) {
   m_emailError->setGeometry(ui->emailField->x(),
                             ui->emailField->y() - 6,
@@ -46,14 +54,14 @@ void MainWindow::showEmailError(const QString& message) {
 
   m_emailError->setText(message);
   QString style = ui->emailField->styleSheet();
-  style += "\n border: 1px solid red;}";
+  style += "\n border: 1px solid red;";
   ui->emailField->setStyleSheet(style);
 }
 
 void MainWindow::hideEmailError() {
   m_emailError->setText("");
   QString style = ui->emailField->styleSheet();
-  style.replace("\n border: 1px solid red;}", "");
+  style.replace("\n border: 1px solid red;", "");
   ui->emailField->setStyleSheet(style);
 }
 
@@ -65,14 +73,14 @@ void MainWindow::showPasswordError(const QString& message) {
 
   m_passwordError->setText(message);
   QString style = ui->passwordField->styleSheet();
-  style += "\n border: 1px solid red;}";
+  style += "\n border: 1px solid red;";
   ui->passwordField->setStyleSheet(style);
 }
 
 void MainWindow::hidePasswordError() {
   m_passwordError->setText("");
   QString style = ui->passwordField->styleSheet();
-  style.replace("\n border: 1px solid red;}", "");
+  style.replace("\n border: 1px solid red;", "");
   ui->passwordField->setStyleSheet(style);
 }
 
@@ -89,6 +97,11 @@ void MainWindow::stopBusyIndicator() {
 void MainWindow::onEmailOrPasswordTextChanged() {
   hideEmailError();
   hidePasswordError();
+}
+
+void MainWindow::goToHomePage() {
+  hide();
+  m_homePage->show();
 }
 
 void MainWindow::onLoginButtonClicked() {
@@ -115,6 +128,8 @@ void MainWindow::onFinishRequest(const QString& url, const QString& error) {
   if (url == m_networkManager.loginUrl()) {
     if (!error.isEmpty()) {
       showEmailError(error);
+    } else {
+      goToHomePage();
     }
 
     stopBusyIndicator();
