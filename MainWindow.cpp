@@ -14,6 +14,10 @@ MainWindow::MainWindow(QWidget *parent)
   m_emailError->setStyleSheet("color: red; background-color: transparent;");
   m_emailError->setIndent(16);
 
+  m_passwordError = new QLabel(this);
+  m_passwordError->setStyleSheet(m_emailError->styleSheet());
+  m_passwordError->setIndent(16);
+
   m_spinner = new WaitingSpinnerWidget(this);
   m_spinner->setParent(ui->loginButton);
   m_spinner->setInnerRadius(5);
@@ -33,7 +37,7 @@ MainWindow::~MainWindow()
 void MainWindow::showEmailError(const QString& message) {
   m_emailError->setGeometry(ui->emailField->x(),
                             ui->emailField->y() - 5,
-                            m_emailError->width(),
+                            ui->emailField->width(),
                             m_emailError->height());
 
   m_emailError->setText(message);
@@ -47,6 +51,25 @@ void MainWindow::hideEmailError() {
   QString style = ui->emailField->styleSheet();
   style.replace("\n border: 1px solid red;}", "");
   ui->emailField->setStyleSheet(style);
+}
+
+void MainWindow::showPasswordError(const QString& message) {
+  m_passwordError->setGeometry(ui->passwordField->x(),
+                               ui->passwordField->y() - 5,
+                               ui->passwordField->width(),
+                               m_passwordError->height());
+
+  m_passwordError->setText(message);
+  QString style = ui->passwordField->styleSheet();
+  style += "\n border: 1px solid red;}";
+  ui->passwordField->setStyleSheet(style);
+}
+
+void MainWindow::hidePasswordError() {
+  m_passwordError->setText("");
+  QString style = ui->passwordField->styleSheet();
+  style.replace("\n border: 1px solid red;}", "");
+  ui->passwordField->setStyleSheet(style);
 }
 
 void MainWindow::onLoginButtonClicked() {

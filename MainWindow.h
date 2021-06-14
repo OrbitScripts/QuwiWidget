@@ -22,6 +22,9 @@ public:
   void showEmailError(const QString& message);
   void hideEmailError();
 
+  void showPasswordError(const QString& message);
+  void hidePasswordError();
+
   void onLoginButtonClicked();
   void onFinishRequest(const QString& url, const QString& error);
 
@@ -29,6 +32,7 @@ private:
   Ui::MainWindow *ui;
   WaitingSpinnerWidget* m_spinner;
   QLabel* m_emailError;
+  QLabel* m_passwordError;
   NetworkManager m_networkManager;
 };
 #endif // MAINWINDOW_H
