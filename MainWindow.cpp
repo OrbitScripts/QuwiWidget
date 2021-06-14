@@ -1,7 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
-#include <QDebug>
+#include <QRegExp>
 
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent),
@@ -25,8 +25,12 @@ MainWindow::MainWindow(QWidget *parent)
 
   connect(ui->loginButton, &QPushButton::pressed,
           this, &MainWindow::onLoginButtonClicked);
+
   connect(&m_networkManager, &NetworkManager::finishRequest,
           this, &MainWindow::onFinishRequest);
+
+  connect(ui->emailField, &QLineEdit::textChanged,
+          this, &MainWindow::onEmailOrPasswordTextChanged);
 }
 
 MainWindow::~MainWindow()
@@ -36,7 +40,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::showEmailError(const QString& message) {
   m_emailError->setGeometry(ui->emailField->x(),
-                            ui->emailField->y() - 5,
+                            ui->emailField->y() - 6,
                             ui->emailField->width(),
                             m_emailError->height());
 
@@ -55,7 +59,7 @@ void MainWindow::hideEmailError() {
 
 void MainWindow::showPasswordError(const QString& message) {
   m_passwordError->setGeometry(ui->passwordField->x(),
-                               ui->passwordField->y() - 5,
+                               ui->passwordField->y() - 6,
                                ui->passwordField->width(),
                                m_passwordError->height());
 
@@ -72,19 +76,48 @@ void MainWindow::hidePasswordError() {
   ui->passwordField->setStyleSheet(style);
 }
 
-void MainWindow::onLoginButtonClicked() {
-  QString email = ui->emailField->text();
-  QString password = ui->passwordField->text();
-
+void MainWindow::startBusyIndicator() {
   ui->loginButton->setText("");
   m_spinner->start();
+}
+
+void MainWindow::stopBusyIndicator() {
+  ui->loginButton->setText("Login");
+  m_spinner->stop();
+}
+
+void MainWindow::onEmailOrPasswordTextChanged() {
+  hideEmailError();
+  hidePasswordError();
+}
+
+void MainWindow::onLoginButtonClicked() {
+  QRegExp mailRegEx("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
+  mailRegEx.setCaseSensitivity(Qt::CaseInsensitive);
+
+  QString email = ui->emailField->text();
+  if (email.isEmpty() || !mailRegEx.exactMatch(email)) {
+    showEmailError("Email is not a valid email address.");
+    return;
+  }
+
+  QString password = ui->passwordField->text();
+  if (password.isEmpty()) {
+    showPasswordError("Password can not be blank.");
+    return;
+  }
+
+  startBusyIndicator();
   m_networkManager.loginRequest(email, password);
 }
 
 void MainWindow::onFinishRequest(const QString& url, const QString& error) {
   if (url == m_networkManager.loginUrl()) {
-    ui->loginButton->setText("Login");
-    m_spinner->stop();
+    if (!error.isEmpty()) {
+      showEmailError(error);
+    }
+
+    stopBusyIndicator();
   }
 }
 

@@ -25,6 +25,11 @@ public:
   void showPasswordError(const QString& message);
   void hidePasswordError();
 
+  void startBusyIndicator();
+  void stopBusyIndicator();
+
+  void onEmailOrPasswordTextChanged();
+
   void onLoginButtonClicked();
   void onFinishRequest(const QString& url, const QString& error);
 
