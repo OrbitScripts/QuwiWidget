@@ -130,6 +130,7 @@ void MainWindow::onFinishRequest(const QString& url, const QString& error) {
       showEmailError(error);
     } else {
       goToHomePage();
+      ui->passwordField->setText("");
     }
 
     stopBusyIndicator();
